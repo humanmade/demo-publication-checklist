@@ -18,6 +18,9 @@ function bootstrap() {
 
 	// This is optional:
 	add_action( 'altis.publication-checklist.register_prepublish_checks', __NAMESPACE__ . '\\register_video' );
+
+	// This checks tags:
+	add_action( 'altis.publication-checklist.register_prepublish_checks', __NAMESPACE__ . '\\register_tags' );
 }
 
 function register_image_texts() {
@@ -124,5 +127,17 @@ function register_video() {
 
 			return new Status( STATUS::INFO, __( 'Add a video to the post', 'altis-demo' ) );
 		},
+	] );
+}
+
+function register_tags() {
+	Checklist\register_prepublish_check( 'tags', [
+		'run_check' => function ( array $post, array $meta, array $terms ) : Status {
+			if ( empty( $terms['post_tag'] ) ) {
+				return new Status( Status::INCOMPLETE, __( 'Add tags to the post', 'altis-demo' ) );
+			}
+
+			return new Status( Status::COMPLETE, __( 'Add tags to the post', 'altis-demo' ) );
+		}
 	] );
 }
