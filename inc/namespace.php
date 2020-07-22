@@ -13,6 +13,9 @@ function bootstrap() {
 	// Add a caption to solve:
 	add_action( 'altis.publication-checklist.register_prepublish_checks', __NAMESPACE__ . '\\register_image_texts' );
 
+	// Checking meta:
+	add_action( 'altis.publication-checklist.register_prepublish_checks', __NAMESPACE__ . '\\register_seo_title' );
+
 	// This item is always completed:
 	add_action( 'altis.publication-checklist.register_prepublish_checks', __NAMESPACE__ . '\\register_social_headline' );
 
@@ -95,6 +98,17 @@ function register_image_texts() {
 			$block = array_values( $failing )[0];
 			return new Status( Status::INCOMPLETE, __( 'Add image alt text or caption', 'altis-demo' ), $block );
 		},
+	] );
+}
+
+function register_seo_title() {
+	Checklist\register_prepublish_check( 'seo-title', [
+		'run_check' => function ( array $post, array $meta ) : Status {
+			$meta_title = $meta['_meta_title'] ?? [];
+			$status = ( count( $meta_title ) !== 1 || empty( $meta_title[0] ) ) ? Status::INCOMPLETE : Status::COMPLETE;
+
+			return new Status( $status, 'Add a custom SEO title' );
+		}
 	] );
 }
 
