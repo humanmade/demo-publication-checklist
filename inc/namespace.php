@@ -82,6 +82,10 @@ function register_image_texts() {
 	};
 
 	Checklist\register_prepublish_check( 'image-texts', [
+		'type' => [
+			'post',
+			'page',
+		],
 		'run_check' => function ( array $post ) use ( $image_block_names, $check_block ) : Status {
 			$blocks = parse_blocks( $post['post_content'] );
 			$image_blocks = array_filter( $blocks, function ( $block ) use ( $image_block_names ) {
@@ -103,6 +107,10 @@ function register_image_texts() {
 
 function register_seo_title() {
 	Checklist\register_prepublish_check( 'seo-title', [
+		'type' => [
+			'post',
+			'page',
+		],
 		'run_check' => function ( array $post, array $meta ) : Status {
 			$meta_title = $meta['_meta_title'] ?? [];
 			$status = ( count( $meta_title ) !== 1 || empty( $meta_title[0] ) ) ? Status::INCOMPLETE : Status::COMPLETE;
