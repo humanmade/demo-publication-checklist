@@ -112,7 +112,7 @@ function register_seo_title() {
 			'page',
 		],
 		'run_check' => function ( array $post, array $meta ) : Status {
-			$meta_title = $meta['_meta_title'] ?? [];
+			$meta_title = $meta['_yoast_wpseo_title'] ?? [];
 			$status = ( count( $meta_title ) !== 1 || empty( $meta_title[0] ) ) ? Status::INCOMPLETE : Status::COMPLETE;
 
 			return new Status( $status, 'Add a custom SEO title' );
