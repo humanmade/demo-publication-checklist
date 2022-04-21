@@ -63,7 +63,10 @@ function register_image_texts() {
 			}
 
 			case 'core/image':
-				return (bool) preg_match( '#<figcaption>.+?</figcaption>#i', $block['innerHTML'] );
+				$caption = preg_match( '#<figcaption>.+?</figcaption>#i', $block['innerHTML'] );
+				$alt_text = preg_match( '#<img\s.*\salt=\"([^\"]+)\"#i', $block['innerHTML'] );
+
+				return $caption || $alt_text;
 
 			case 'core/media-text': {
 				$mediaType = $block['attributes']['mediaType'];
