@@ -64,7 +64,7 @@ function register_image_texts() {
 
 			case 'core/image':
 				$caption = preg_match( '#<figcaption>.+?</figcaption>#i', $block['innerHTML'] );
-				$alt_text = preg_match( '#<img\s.*\salt=\"([^\"]+)\"#i', $block['innerHTML'] );
+				$alt_text = preg_match( '#<img\s.*?alt="(.+?)".*?\/?>#', $block['innerHTML'] );
 
 				return $caption || $alt_text;
 
